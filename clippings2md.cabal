@@ -4,22 +4,20 @@
 name:                clippings2md
 version:             0.1.0.0
 synopsis:            Convert Kindle's `My Clippings.txt` to Markdown
--- description:         
+description:         Convert Kindle's `My Clippings.txt` to Markdown
 homepage:            http://rejuvyesh.com/clippings2md
 license:             GPL-3
 license-file:        LICENSE
 author:              rejuvyesh
 maintainer:          mail@rejuvyesh.com
--- copyright:           
 category:            Text
 build-type:          Simple
--- extra-source-files:  
+extra-source-files:  README.md
 cabal-version:       >=1.10
 
 executable clippings2md
   main-is:             Main.hs
-  -- other-modules:       
-  -- other-extensions:    
-  build-depends:       base >=4.7 && <4.8, clippings, assert, pandoc, pandoc-types, parsec
+  other-extensions:    RecordWildCards, LambdaCase, OverloadedStrings
+  build-depends:       base >=4.7 && <4.8, parsec, pandoc-types, pandoc, clippings
   hs-source-dirs:      src
   default-language:    Haskell2010
