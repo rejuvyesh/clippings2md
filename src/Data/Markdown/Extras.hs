@@ -2,13 +2,17 @@
 {-# LANGUAGE RecordWildCards, LambdaCase #-}
 module Data.Markdown.Extras (encodeMarkdown) where
 
-import Control.Applicative ((<$>))
-import Data.Monoid ((<>))
-import Data.Maybe (fromMaybe)
+import Control.Applicative ( (<$>) )
+import Data.Monoid ()
+import Data.Maybe ( fromMaybe, isNothing, fromJust )
 import Text.Kindle.Clippings.Types
-import Data.List.Extras (substitute)
-import Text.Pandoc
+  ( Clipping(content, document),
+    Document(author, title),
+    Content(Highlight) )
+import Data.List.Extras ()
+import Text.Pandoc ()
 import Text.Pandoc.Builder as TPB
+  ( Blocks, (<>), text, para, header )
 
 getTitle :: Clipping -> String
 getTitle = title . document
@@ -16,19 +20,19 @@ getTitle = title . document
 getAuthor :: Clipping -> Maybe String
 getAuthor = author . document
 
--- getContent :: Clipping -> String
--- getContent = show content
+getHighlightFromContent :: Content -> Maybe String
+getHighlightFromContent (Highlight str) = Just str
+getHighlightFromContent _ = Nothing
 
-isHighlight :: Clipping -> Bool
-isHighlight Clipping{..} = case content of
-  Highlight _ -> True
-  _           -> False
+getHighlight :: Clipping -> Maybe String
+getHighlight = getHighlightFromContent . content
 
-encodeMarkdown :: Clipping -> Blocks
-encodeMarkdown c = (header 3 $ text (getTitle c)) <> (para $ text $ (fromMaybe "[clippings2md]" $ (" - "<>) <$> getAuthor c))
-                     -- -- Plain [Str (fromMaybe "[clippings2md]" $ (" - "<>) <$> getAuthor c)]
-                     -- Plain [Str (getContent c)]
-                   -- ]
-
-        -- content' = substitute '\n' ' ' $ show $ getContent c
+encodeMarkdown :: Clipping -> Maybe Blocks
+encodeMarkdown c
+  | isNothing $ highlight = Nothing
+  | null (fromJust highlight) = Nothing
+  | otherwise = Just ((header 3 $ text (getTitle c)) <>
+                (para $ text $ (fromJust highlight)) <>
+                (para $ text $ (fromMaybe "[clippings2md]" $ (" - "<>) <$> getAuthor c)))
+  where highlight = getHighlight c
         
