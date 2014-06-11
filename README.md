@@ -9,3 +9,8 @@ Usage
 ```
 clippings2md 'My Clippings.txt' > Highlights.md
 ```
+
+Acknowledgment
+--------------
+@vi for writing [clippings](https://github.com/fmap/clippings)
+
