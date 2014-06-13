@@ -1,15 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards, LambdaCase #-}
-module Data.Markdown.Extras (encodeMarkdown) where
+module Text.Markdown.Extras (encodeMarkdown) where
 
 import Control.Applicative ( (<$>) )
-import Data.Monoid ()
 import Data.Maybe ( fromMaybe, isNothing, fromJust )
 import Text.Kindle.Clippings.Types
   ( Clipping(content, document),
     Document(author, title),
     Content(Highlight) )
-import Data.List.Extras ()
 import Text.Pandoc ()
 import Text.Pandoc.Builder as TPB
   ( Blocks, (<>), text, para, header )
