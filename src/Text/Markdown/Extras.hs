@@ -9,7 +9,7 @@ import Text.Kindle.Clippings.Types
     Document(author, title),
     Content(Highlight) )
 import Text.Pandoc.Builder as TPB
-  ( Blocks, (<>), text, para, header )
+  ( Blocks, (<>), text, para, header, blockQuote )
 
 getTitle :: Clipping -> String
 getTitle = title . document
@@ -29,7 +29,7 @@ encodeMarkdown c
   | isNothing $ highlight = Nothing
   | null (fromJust highlight) = Nothing
   | otherwise = Just ((header 3 $ text (getTitle c)) <>
-                (para $ text $ (fromJust highlight)) <>
-                (para $ text $ (fromMaybe "[clippings2md]" $ (" - "<>) <$> getAuthor c)))
+                (blockQuote $ para $ text $ (fromJust highlight)) <>
+                (para $ text $ (fromMaybe "[clippings2md]" $ (" --- "<>) <$> getAuthor c)))
   where highlight = getHighlight c
         
