@@ -1,15 +1,15 @@
+{-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards, LambdaCase #-}
+{-# LANGUAGE RecordWildCards   #-}
 module Text.Markdown.Extras (encodeMarkdown) where
 
-import Control.Applicative ( (<$>) )
-import Data.Maybe ( fromMaybe, isNothing, fromJust )
-import Text.Kindle.Clippings.Types
-  ( Clipping(content, document),
-    Document(author, title),
-    Content(Highlight) )
-import Text.Pandoc.Builder as TPB
-  ( Blocks, (<>), text, para, header, blockQuote )
+import           Control.Applicative         ((<$>))
+import           Data.Maybe                  (fromJust, fromMaybe, isNothing)
+import           Text.Kindle.Clippings.Types (Clipping (content, document),
+                                              Content (Highlight),
+                                              Document (author, title))
+import           Text.Pandoc.Builder         as TPB (Blocks, blockQuote, header,
+                                                     para, text, (<>))
 
 getTitle :: Clipping -> String
 getTitle = title . document
@@ -32,4 +32,4 @@ encodeMarkdown c
                 (blockQuote $ para $ text $ (fromJust highlight)) <>
                 (para $ text $ (fromMaybe "[clippings2md]" $ (" --- "<>) <$> getAuthor c)))
   where highlight = getHighlight c
-        
+

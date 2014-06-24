@@ -1,23 +1,25 @@
-{-# LANGUAGE RecordWildCards, LambdaCase #-}
+{-# LANGUAGE LambdaCase      #-}
+{-# LANGUAGE RecordWildCards #-}
 
 module Main where
 
-import Control.Applicative ( (<$>) )
-import Data.Functor.Extras ( (<$$>) )
-import Data.Bifunctor (Bifunctor(bimap))
-import Data.Maybe ( catMaybes )
-import Data.Monoid ( Monoid(mconcat) )
-import Text.Markdown.Extras ( encodeMarkdown )
-import System.Environment ( getArgs )
-import System.Exit ( exitSuccess, exitFailure )
-import System.IO ( hPutStr, stderr )
-import Text.Kindle.Clippings ( Clipping, readClippings )
-import Text.Parsec ( parse )
-import Text.Pandoc ( def, Pandoc(Pandoc), Block, writeMarkdown )
-import Text.Pandoc.Builder as TPB ( toList )
+import           Control.Applicative   ((<$>))
+import           Data.Bifunctor        (Bifunctor (bimap))
+import           Data.Functor.Extras   ((<$$>))
+import           Data.Maybe            (catMaybes)
+import           Data.Monoid           (Monoid (mconcat))
+import           System.Environment    (getArgs)
+import           System.Exit           (exitFailure, exitSuccess)
+import           System.IO             (hPutStr, stderr)
+import           Text.Kindle.Clippings (Clipping, readClippings)
+import           Text.Markdown.Extras  (encodeMarkdown)
+import           Text.Pandoc           (Block, Pandoc (Pandoc), def,
+                                        writeMarkdown)
+import           Text.Pandoc.Builder   as TPB (toList)
+import           Text.Parsec           (parse)
 
 getClippings :: String -> Either String [Clipping]
-getClippings = bimap show catMaybes . parse readClippings [] 
+getClippings = bimap show catMaybes . parse readClippings []
 
 renderClippings :: [Clipping] -> [Block]
 renderClippings = mconcat . fmap TPB.toList . catMaybes . fmap encodeMarkdown . reverse
