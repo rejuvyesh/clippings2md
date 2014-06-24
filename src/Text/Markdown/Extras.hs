@@ -8,7 +8,6 @@ import Text.Kindle.Clippings.Types
   ( Clipping(content, document),
     Document(author, title),
     Content(Highlight) )
-import Text.Pandoc ()
 import Text.Pandoc.Builder as TPB
   ( Blocks, (<>), text, para, header )
 
