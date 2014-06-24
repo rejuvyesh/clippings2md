@@ -20,7 +20,7 @@ getClippings :: String -> Either String [Clipping]
 getClippings = bimap show catMaybes . parse readClippings [] 
 
 renderClippings :: [Clipping] -> [Block]
-renderClippings = mconcat . fmap TPB.toList . catMaybes . fmap encodeMarkdown
+renderClippings = mconcat . fmap TPB.toList . catMaybes . fmap encodeMarkdown . reverse
 
 main :: IO ()
 main = head <$> getArgs >>= getClippings <$$> readFile >>= \case
