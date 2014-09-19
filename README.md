@@ -12,5 +12,5 @@ clippings2md 'My Clippings.txt' > Highlights.md
 
 Acknowledgment
 --------------
-@vi for writing [clippings](https://github.com/fmap/clippings)
+@fmap for writing [clippings](https://github.com/fmap/clippings)
 
